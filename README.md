@@ -21,6 +21,7 @@ Case 2:
 Create a file in the home folder [~/.boto] of a specific user that you want only him to have access to the creds.
 Copy-paste the AWS creds as stated above.
 
+Official AWS docs here: http://boto.readthedocs.org/en/latest/boto_config_tut.html
 
 
 Run each playbook from the command line (Linux) like this:
