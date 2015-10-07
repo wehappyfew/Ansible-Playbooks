@@ -1,0 +1,23 @@
+---
+# make make anything a var as needed!
+# Run it from terminal like this:
+# ansible-playbook "-e 'VAR1=[a-value] VAR2=[some_value]'" [playbook-name].yml
+- hosts: localhost
+   vars:
+     instance_tag : {{ TAG }}
+     instances_num: {{ NUMBER }}
+     key_name: {{ KEY_NAME }}
+     ami_id: {{ AMI }}
+     sec_group: {{ SEC_GROUP }}
+  tasks:
+  - name: Create new AWS instances
+    local_action:
+      module: ec2
+      region: us-east-1 # set it as var
+      key_name: {{ key_name }}
+      instance_type: m3.medium
+      image: {{ ami_id }
+      group: {{ sec_group }
+      instance_tags:
+        Name: {{ instance_tag }}
+    with_sequence: count= {{ instances_num }}

@@ -1,0 +1,19 @@
+---
+# make make anything a var as needed!
+# Run it from terminal like this:
+# ansible-playbook "-e 'VAR1=[a-value] VAR2=[some_value]'" [playbook-name].yml
+ - hosts: localhost
+   vars:
+     source_db_name: {{ SOURCE_DB }}
+     new_db_name: {{ NEW_DB  }}
+   tasks:
+   - name: Make RDS replica
+     local_action:
+       module: rds
+       command: replicate
+       instance_name  : {{ new_db_name  }}
+       source_instance: {{ source_db_name  }}
+       region: us-east-1
+       wait: yes
+       wait_timeout: 900 # wait 15 minutes [tested]
+

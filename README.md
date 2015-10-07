@@ -3,8 +3,6 @@ Ansible playbooks to automate various deployment routines [not only] on AWS
 
 Prerequisites:
 
-1. 
-
 Case 1:
 Create a boto.cfg file in /etc folder, [sudo nano /etc/boto.cfg] , 
 and copy-paste your AWS creds in it.
