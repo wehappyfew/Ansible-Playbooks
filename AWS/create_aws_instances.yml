@@ -12,12 +12,12 @@
   tasks:
   - name: Create new AWS instances
     local_action:
-      module: ec2
-      region: us-east-1 # set it as var
+      module: ec2  # use ansible ec2 module
+      region: us-east-1 # set it as var if wanted
       key_name: {{ key_name }}
       instance_type: m3.medium
-      image: {{ ami_id }
-      group: {{ sec_group }
+      image: {{ ami_id }}
+      group: {{ sec_group }}
       instance_tags:
-        Name: {{ instance_tag }}
-    with_sequence: count= {{ instances_num }}
+        Name: {{ instance_tag }} # tag them
+    with_sequence: count= {{ instances_num }} # how many instances to create
