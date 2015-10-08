@@ -1,0 +1,15 @@
+#todo
+---
+# Run it like this:
+# ansible-playbook --extra-vars '{"VAR":"var-value", "VAR":"var-value"}' playbook-name.yml
+- hosts: localhost
+  vars:
+    key_name: "{{ KEY_NAME }}"
+  tasks:
+    - name: Create new key-pair
+      local_action:
+        module: ec2_key
+        region: us-east-1
+        # the keypair name
+        name: "{{ key_name }}"
+        #default state is present
