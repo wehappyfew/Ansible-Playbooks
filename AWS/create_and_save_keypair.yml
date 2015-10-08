@@ -1,0 +1,24 @@
+---
+# Run it like this:
+# ansible-playbook --extra-vars '{"VAR":"var-value", "VAR":"var-value"}' playbook-name.yml
+- hosts: localhost
+
+  vars:
+    key_name_var: "{{ KEY_NAME }}"
+
+  tasks:
+    - name: Create new key-pair
+      local_action:
+        module: ec2_key
+        region: us-east-1
+        # the keypair name
+        name: "{{ key_name_var }}"
+        #default state is present
+
+      #The register keyword stores the output/result of a given module in a task into a variable,
+      #so you can access it later in another task.
+      register: key_module_output
+    - name: Write the new key to a file
+      local_action: shell echo -e "{{ item.value.private_key }}" > ~/.ssh/"{{ key_name_var }}".pem
+      with_dict: key_module_output
+      when: item.value.private_key is defined
