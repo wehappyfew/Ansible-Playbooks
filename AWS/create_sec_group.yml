@@ -1,0 +1,56 @@
+---
+# Create a new security group
+# Run it like this:
+# ansible-playbook --extra-vars '{"VAR":"var-value", "VAR":"var-value"}' playbook-name.yml
+- name: Create and tag a new sec group
+  hosts: localhost
+  connection: local
+  vars:
+    sec_group_name: "{{ SEC_GROUP }}"
+    region: "{{REGION}}" # eg us-east-1
+    jenkins_port: "{{J_PORT}}"
+    master_port : "{{M_PORT}}"
+    slaves_port : "{{S_PORT}}"
+  tasks:
+    - name: Create security group
+      local_action:
+        module: ec2_group
+        name: "{{ sec_group_name }}"
+        description: something
+        region: "{{ region }}"
+        rules:
+
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: 0.0.0.0/0
+
+          - proto: tcp
+            from_port: "{{jenkins_port}}"
+            to_port  : "{{jenkins_port}}"
+            cidr_ip: 0.0.0.0/0
+
+          - proto: tcp
+            from_port: "{{master_port}}"
+            to_port  : "{{master_port}}"
+            cidr_ip: 0.0.0.0/0
+
+          - proto: tcp
+            from_port: "{{slaves_port}}"
+            to_port  : "{{slaves_port}}"
+            cidr_ip: 0.0.0.0/0
+      register: aws_new_sec_group
+
+    - name: Tag the security group with a name
+      local_action:
+        module: ec2_tag
+        resource: "{{aws_new_sec_group.group_id}}"
+        region: "{{ region }}"
+        state: present
+        tags:
+          Name: "Security Group Name"
+
+
+
+
+
