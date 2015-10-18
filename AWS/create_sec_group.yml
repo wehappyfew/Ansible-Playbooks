@@ -1,13 +1,13 @@
 ---
 # Create a new security group
 # Run it like this:
-# ansible-playbook --extra-vars '{"VAR":"var-value", "VAR":"var-value"}' playbook-name.yml
+# ansible-playbook --extra-vars '{"NAME":"DELETEME", "REGION":"us-east-1","J_PORT":"8080","M_PORT":"8089","S_PORT":"5557"}' create_sec_group.yml
 - name: Create and tag a new sec group
   hosts: localhost
   connection: local
   vars:
-    sec_group_name: "{{ SEC_GROUP }}"
-    region: "{{REGION}}" # eg us-east-1
+    sec_group_name: "{{ NAME }}"
+    region: "{{REGION}}"
     jenkins_port: "{{J_PORT}}"
     master_port : "{{M_PORT}}"
     slaves_port : "{{S_PORT}}"
@@ -48,7 +48,7 @@
         region: "{{ region }}"
         state: present
         tags:
-          Name: "Security Group Name"
+          Name: "{{ sec_group_name }}"
 
 
 
