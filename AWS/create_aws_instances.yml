@@ -1,5 +1,5 @@
 ---
-# make make anything a var as needed!
+# make anything a var as needed!
 # Run it from terminal like this:
 # ansible-playbook --extra-vars '{"VAR":"var-value", "VAR":"var-value"}' playbook-name.yml
 - hosts: localhost
@@ -19,5 +19,5 @@
       image: "{{ ami_id }}"
       group: "{{ sec_group }}"
       instance_tags:
-        Name: "{{ instance_tag }}" # tag them
-    with_sequence: count= "{{ instances_num }}" # how many instances to create
+        Name: "{{ instance_tag }}"
+      count: "{{ instances_num }}"
