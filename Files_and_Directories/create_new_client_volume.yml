@@ -1,0 +1,11 @@
+#Playbook to create a new directory in a specific path
+#Use it like this:
+#ansible-playbook -i hosts --extra-vars '{"PREFIX":"something"}' create_new_client_volume.yml
+---
+- hosts: localhost
+  connection: local
+  vars:
+    prefix : "{{ PREFIX }}"
+  tasks:
+  - name: Create new dir
+    file: path=~/some_path/"{{ prefix }}_volume" state=directory
